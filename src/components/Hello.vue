@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <div class="main">
+      <user-list></user-list>
+    </div>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://www.openshift.com/" target="_blank">OpenShift</a></li>
@@ -14,8 +17,13 @@
 </template>
 
 <script>
+import UserList from './UserList'
+
 export default {
   name: 'hello',
+  components: {
+    'user-list': UserList
+  },
   data () {
     return {
       msg: 'Welcome to Your App'
@@ -42,5 +50,11 @@ li {
 
 a {
   color: #42b983;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center
 }
 </style>

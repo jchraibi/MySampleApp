@@ -5,25 +5,24 @@
       style="width: 540">
       <el-table-column
         prop="firstname"
-        label="First Name"
-        width="180">
+        label="First Name">
       </el-table-column>
       <el-table-column
         prop="lastname"
-        label="Last Name"
-        width="180">
+        label="Last Name">
       </el-table-column>
       <el-table-column
         prop="email"
-        label="Email"
-        width="180">
+        label="Email">
       </el-table-column>
   </el-table>
 </template>
 
 <script>
+import userMgr from '../api/users'
+
 export default {
-  name: 'hello',
+  name: 'user-list',
   data () {
     return {
       tableData: []
@@ -31,8 +30,8 @@ export default {
   },
   methods: {
     getAllUsers () {
-      this.$http.get('/users').then((res) => {
-        this.tableData = res.data
+      userMgr.getAllUsers((userList) => {
+        this.tableData = userList
       }, (error) => {
         console.log(error)
       })
@@ -50,6 +49,6 @@ export default {
 
 .el-table {
   margin: 10px 10px 10px 10px;
-  width: 540px;
+  width: 640px;
 }
 </style>
