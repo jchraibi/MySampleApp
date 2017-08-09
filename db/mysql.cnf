@@ -1,0 +1,6 @@
+[client]
+user=gh-ost
+password=gh-ost
+host=127.0.0.1
+port=3360
+database=gh-ost

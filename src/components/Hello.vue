@@ -1,31 +1,32 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <div class="main">
+      <user-list></user-list>
+    </div>
     <h2>Essential Links</h2>
     <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+      <li><a href="https://www.openshift.com/" target="_blank">OpenShift</a></li>
+      <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+      <li><a href="https://probot.github.io" target="_blank">Probot</a></li>
+      <li><a href="https://github.com/github/gh-ost" target="_blank">gh-ost</a></li>
+      <li><a href="https://github.com/github/scientist" target="_blank">Scientist</a></li>
+      <li><a href="https://github.com/jnunemaker/flipper" target="_blank">Flipper</a></li>
     </ul>
   </div>
 </template>
 
 <script>
+import UserList from './UserList'
+
 export default {
   name: 'hello',
+  components: {
+    'user-list': UserList
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your App'
     }
   }
 }
@@ -49,5 +50,11 @@ li {
 
 a {
   color: #42b983;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center
 }
 </style>

@@ -13,6 +13,9 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = process.env.NODE_ENV === 'testing'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
+var mysql = require('mysql')
+var SwaggerExpress = require('swagger-express-mw')
+
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -65,6 +68,28 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
+var dbPool  = mysql.createPool(config.dev.env.db);
+dbPool.getConnection(function(err, connection) {
+  if (err) {
+    console.error('Error connecting to the database pool: ' + err.stack)
+    return;
+  }
+
+  connection.query('SELECT 1', function (error, results, fields) {
+    if (err) {
+      console.error('Error querying the database: ' + err.stack)
+      return
+    } else {
+      console.log('Successfully connected to the database')
+    }
+  })
+})
+
+app.use(function (req, res, next) {
+  req.dbPool = dbPool
+  next()
+})
+
 var uri = 'http://localhost:' + port
 
 var _resolve
@@ -73,8 +98,29 @@ var readyPromise = new Promise(resolve => {
 })
 
 console.log('> Starting dev server...')
-devMiddleware.waitUntilValid(() => {
-  console.log('> Listening at ' + uri + '\n')
+
+var swagggerConfig = {
+  appRoot: __dirname + '/..', // required config
+  swaggerSecurityHandlers: {
+    UserSecurity: function securityHandler1(req, authOrSecDef, scopesOrApiKey, cb) {
+      cb();
+    }
+  }
+}
+
+SwaggerExpress.create(swagggerConfig, function(err, swaggerExpress) {
+  if (err) {
+    throw err
+  }
+
+  swaggerExpress.register(app)
+
+  server = app.listen(port)
+
+  if (swaggerExpress.runner.swagger.paths['/hello']) {
+    console.log('try this:\ncurl -H "Accept: application/json" http://127.0.0.1:' + port + '/api/hello?name=Scott')
+  }
+
   // when env is testing, don't need open it
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
     opn(uri)
@@ -82,7 +128,12 @@ devMiddleware.waitUntilValid(() => {
   _resolve()
 })
 
-var server = app.listen(port)
+
+devMiddleware.waitUntilValid(() => {
+  console.log('> Listening at ' + uri + '\n')
+  // when env is testing, don't need open it
+})
+
 
 module.exports = {
   ready: readyPromise,
