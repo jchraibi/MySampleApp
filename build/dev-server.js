@@ -1,9 +1,6 @@
 require('./check-versions')()
 
 var config = require('../config')
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
-}
 
 var opn = require('opn')
 var path = require('path')
@@ -15,7 +12,6 @@ var webpackConfig = process.env.NODE_ENV === 'testing'
   : require('./webpack.dev.conf')
 var mysql = require('mysql')
 var SwaggerExpress = require('swagger-express-mw')
-
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -68,7 +64,18 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-var dbPool  = mysql.createPool(config.dev.env.db);
+let mysqlConfig = config.dev.env.db
+if (process.env.NODE_ENV === 'production') {
+  mysqlConfig.connectionLimit = process.env.MYSQL_CONNECTION_LIMIT || 10
+  mysqlConfig.acquireTimeout = process.env.MYSQL_ACQUIRE_TIMEOUT || 1000
+  mysqlConfig.host = process.env.MYSQL_CONNECTION_HOST
+  mysqlConfig.port = process.env.MYSQL_CONNECTION_PORT || 3306
+  mysqlConfig.user = process.env.MYSQL_CONNECTION_USER
+  mysqlConfig.password = process.env.MYSQL_CONNECTION_PASSWORD
+  mysqlConfig.database = process.env.MYSQL_CONNECTION_DATABASE
+}
+
+var dbPool = mysql.createPool(mysqlConfig);
 dbPool.getConnection(function(err, connection) {
   if (err) {
     console.error('Error connecting to the database pool: ' + err.stack)
@@ -121,8 +128,7 @@ SwaggerExpress.create(swagggerConfig, function(err, swaggerExpress) {
     console.log('try this:\ncurl -H "Accept: application/json" http://127.0.0.1:' + port + '/api/hello?name=Scott')
   }
 
-  // when env is testing, don't need open it
-  if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
+  if (autoOpenBrowser) {
     opn(uri)
   }
   _resolve()
