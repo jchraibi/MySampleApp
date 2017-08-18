@@ -11,6 +11,7 @@ var webpackConfig = process.env.NODE_ENV === 'testing'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
 var mysql = require('mysql')
+var dbUtil = require('./db-util')
 var SwaggerExpress = require('swagger-express-mw')
 
 // default port where dev server listens for incoming traffic
@@ -75,7 +76,7 @@ if (process.env.NODE_ENV === 'production') {
   mysqlConfig.database = process.env.MYSQL_CONNECTION_DATABASE
 }
 
-var dbPool = mysql.createPool(mysqlConfig);
+let dbPool = mysql.createPool(mysqlConfig);
 dbPool.getConnection(function(err, connection) {
   if (err) {
     console.error('Error connecting to the database pool: ' + err.stack)
@@ -88,6 +89,7 @@ dbPool.getConnection(function(err, connection) {
       return
     } else {
       console.log('Successfully connected to the database')
+      dbUtil.initDB(mysqlConfig)
     }
   })
 })

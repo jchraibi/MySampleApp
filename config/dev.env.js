@@ -11,6 +11,6 @@ module.exports = merge(prodEnv, {
     port: 3360,
     user: 'gh-ost',
     password: 'gh-ost',
-    database: 'gh-ost'
+    database: 'ghost'
   }
 })
