@@ -1,3 +1,5 @@
+"use strict";
+
 require('./check-versions')()
 
 var config = require('../config')
