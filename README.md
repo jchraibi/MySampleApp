@@ -1,5 +1,7 @@
 # mysampleapp
 
+with CI
+
 > A Vue.js project
 
 ## Build Setup
