@@ -68,7 +68,7 @@ def cleanup() {
   }
 }
 
-void setBuildStatus(String context, String message, String state) {
+def setBuildStatus(String context, String message, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
