@@ -8,7 +8,7 @@ node {
   // echo sh(returnStdout: true, script: 'env')
   checkout()
   build()
-  test()
+  //test()
   cleanup()
 }
 
