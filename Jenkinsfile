@@ -4,7 +4,7 @@ node {
   currentBuild.result = "SUCCESS"
   env.NODEJS_HOME = "${tool 'NodeJS 6.11.2'}"
   env.PATH="${env.NODEJS_HOME}:${env.PATH}"
-  echo ${env.NODEJS_HOME}
+  echo env.NODEJS_HOME
   sh 'node --version'
   sh 'npm --version'
 
