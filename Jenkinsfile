@@ -2,8 +2,9 @@
 
 node {
   currentBuild.result = "SUCCESS"
-  env.NODEJS_HOME = "${tool 'NodeJS 6.11.2'}"
+  env.NODEJS_HOME="${tool 'NodeJS 6.11.2'}"
   env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+  env.npm_config_cache="npm-cache"
   // echo sh(returnStdout: true, script: 'env')
   checkout()
   build()
