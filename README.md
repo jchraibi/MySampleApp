@@ -1,6 +1,8 @@
 # mysampleapp
 
-with CI
+with CI - need to install the following plugins in Jenkins:
+- npm
+- nodejs
 
 > A Vue.js project
 
