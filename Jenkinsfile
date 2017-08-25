@@ -3,7 +3,7 @@
 node {
   currentBuild.result = "SUCCESS"
   env.NODEJS_HOME = "${tool 'NodeJS 6.11.2'}"
-  env.PATH="${env.NODEJS_HOME}:${env.PATH}"
+  env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
   echo sh(returnStdout: true, script: 'env')
   sh 'node --version'
   sh 'npm --version'
