@@ -1,7 +1,9 @@
 #!groovy
 
-node {
+node('node') {
   currentBuild.result = "SUCCESS"
+  env.NODEJS_HOME = "${tool 'NodeJS 6.11.2'}"
+  sh 'npm --version'
 
   checkout()
   build()
