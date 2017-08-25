@@ -4,10 +4,7 @@ node {
   currentBuild.result = "SUCCESS"
   env.NODEJS_HOME = "${tool 'NodeJS 6.11.2'}"
   env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-  echo sh(returnStdout: true, script: 'env')
-  sh 'node --version'
-  sh 'npm --version'
-
+  // echo sh(returnStdout: true, script: 'env')
   checkout()
   build()
   test()
@@ -38,6 +35,7 @@ def build() {
       print "Environment will be : ${env.NODE_ENV}"
 
       sh 'node -v'
+      sh 'npm -v'
       sh 'npm prune'
       sh 'npm install'
       //setBuildStatus 'continuous-integration/build', 'Environment built', 'SUCCESS'
