@@ -31,15 +31,15 @@ def checkout () {
 def build() {
   stage('Build'){
     try {
-      //setBuildStatus 'continuous-integration/build', 'Building the environment...', 'PENDING'
+      // setBuildStatus 'continuous-integration/build', 'Building the environment...', 'PENDING'
       env.NODE_ENV = "test"
       print "Environment will be : ${env.NODE_ENV}"
 
       sh 'node -v'
       sh 'npm -v'
       sh 'npm prune'
-      sh 'npm install'
-      //setBuildStatus 'continuous-integration/build', 'Environment built', 'SUCCESS'
+      // sh 'npm install'
+      // setBuildStatus 'continuous-integration/build', 'Environment built', 'SUCCESS'
     } catch (err) {
       //setBuildStatus 'continuous-integration/build', err, 'FAILURE'
       currentBuild.result = "FAILURE"
