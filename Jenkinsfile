@@ -4,7 +4,7 @@ node {
   currentBuild.result = "SUCCESS"
   env.NODEJS_HOME="${tool 'NodeJS'}"
   env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-  npm_config_cache="npm-cache"
+  env.npm_config_cache="npm-cache"
   checkout()
   build()
 }
@@ -21,9 +21,9 @@ def build() {
       env.NODE_ENV = "test"
       print "Environment will be : ${env.NODE_ENV}"
 
-      sh 'node -v'
-      sh 'npm -v'
-      sh 'npm prune'
+      //sh 'node -v'
+      //sh 'npm -v'
+      //sh 'npm prune'
       sh 'npm install --no-save'
     } catch (err) {
       echo 'Build failed'
