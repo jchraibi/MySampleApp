@@ -24,7 +24,7 @@ def build() {
       sh 'node -v'
       sh 'npm -v'
       sh 'npm prune'
-      sh 'sh mkdir node_modules'
+      sh 'mkdir node_modules'
       sh 'npm install'
     } catch (err) {
       echo 'Build failed'
