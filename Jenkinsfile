@@ -45,7 +45,7 @@ def build() {
       // setBuildStatus 'continuous-integration/build', 'Environment built', 'SUCCESS'
     } catch (err) {
       echo 'Build failed'
-      echo err
+      echo err.message
       //setBuildStatus 'continuous-integration/build', err, 'FAILURE'
       currentBuild.result = "FAILURE"
 
