@@ -5,23 +5,8 @@ node {
   env.NODEJS_HOME="${tool 'NodeJS'}"
   env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
   npm_config_cache="npm-cache"
-  // npm_config_userconfig=$WORKSPACE
-  // NPM_CONFIG_PREFIX=$WORKSPACE
-  // echo sh(returnStdout: true, script: 'env')
   checkout()
   build()
-  //test()
-  cleanup()
-}
-
-def setBuildStatus(String context, String message, String state) {
-  step([
-      $class: "GitHubCommitStatusSetter",
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/TheOpenShiftHub/MySampleApp"],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ]);
 }
 
 def checkout () {
@@ -33,7 +18,6 @@ def checkout () {
 def build() {
   stage('Build'){
     try {
-      // setBuildStatus 'continuous-integration/build', 'Building the environment...', 'PENDING'
       env.NODE_ENV = "test"
       print "Environment will be : ${env.NODE_ENV}"
 
@@ -42,45 +26,10 @@ def build() {
       sh 'npm prune'
       sh 'npm -dd i'
 
-      // setBuildStatus 'continuous-integration/build', 'Environment built', 'SUCCESS'
     } catch (err) {
       echo 'Build failed'
       echo err.message
-      //setBuildStatus 'continuous-integration/build', err, 'FAILURE'
       currentBuild.result = "FAILURE"
-
-      throw err
-    }
-  }
-}
-
-def test() {
-  stage('Test'){
-    try {
-      //setBuildStatus 'continuous-integration/test', 'Testing...', 'PENDING'
-      sh 'npm test'
-      //setBuildStatus 'continuous-integration/test', 'Tested', 'SUCCESS'
-    } catch (err) {
-      //setBuildStatus 'continuous-integration/test', err, 'FAILURE'
-      currentBuild.result = "FAILURE"
-
-      throw err
-    }
-  }
-}
-
-def cleanup() {
-  stage('Cleanup'){
-    try {
-      //setBuildStatus 'continuous-integration/build', 'Cleaning up the environment...', 'PENDING'
-      echo 'prune and cleanup'
-      sh 'npm prune'
-      sh 'rm node_modules -rf'
-      //setBuildStatus 'continuous-integration/build', 'Environment cleaned up', 'SUCCESS'
-    } catch (err) {
-      //setBuildStatus 'continuous-integration/build', err, 'FAILURE'
-      currentBuild.result = "FAILURE"
-
       throw err
     }
   }
