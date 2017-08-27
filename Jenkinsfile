@@ -40,7 +40,7 @@ def build() {
       sh 'node -v'
       sh 'npm -v'
       sh 'npm prune'
-      sh 'npm -ddd i'
+      sh 'npm -dd i'
 
       // setBuildStatus 'continuous-integration/build', 'Environment built', 'SUCCESS'
     } catch (err) {
