@@ -24,7 +24,7 @@ def build() {
       sh 'node -v'
       sh 'npm -v'
       sh 'npm prune'
-      // sh 'npm -dd i'
+      sh 'npm test'
 
     } catch (err) {
       echo 'Build failed'
