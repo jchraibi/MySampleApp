@@ -5,8 +5,8 @@ node {
   env.NODEJS_HOME="${tool 'NodeJS'}"
   env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
   npm_config_cache="npm-cache"
-  npm_config_userconfig=$WORKSPACE
-  NPM_CONFIG_PREFIX=$WORKSPACE
+  // npm_config_userconfig=$WORKSPACE
+  // NPM_CONFIG_PREFIX=$WORKSPACE
   // echo sh(returnStdout: true, script: 'env')
   checkout()
   build()
